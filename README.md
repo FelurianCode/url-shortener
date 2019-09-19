@@ -7,7 +7,6 @@ Simple url shortener in Django
 * djangorestframework
 * mysql
 * mysqlclient
-* elasticsearch
 
 ### Installing requirements
 ```
