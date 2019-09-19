@@ -1,0 +1,14 @@
+<div>
+	<h3>URL shortener</h3>
+	<form action="/" method="post">
+	    {% csrf_token %}
+	    {{ form }}
+	    <input type="submit" value="Submit">
+	</form>
+	{% if new_url %}
+	</br></br>
+		<h3>This is your shorter URL:</h3>
+		<a href="{{ new_url }}">{{ new_url }}</a>
+	{% endif %}
+
+</div>
