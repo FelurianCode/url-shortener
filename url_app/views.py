@@ -26,8 +26,9 @@ def index(request):
 		return render(request, 'urls/index.html', {'form': form})
 
 def redirect_url(request, code):
-	url = Url() #urlobject
-	#return HttpResponseRedirect(original_url)	
+	url_result = Url.objects.get(url_code=code) #urlobject
+	serializer_class = UrlSerializer
+	return HttpResponseRedirect(url_result.original_url)	
 
 
 
