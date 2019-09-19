@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 from rest_framework import generics
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Url
@@ -12,13 +15,19 @@ def index(request):
 		form = UrlForm(request.POST)
 		# check whether it's valid:
 		if form.is_valid():
+
+			validator = URLValidator()
+			try: 
+				validator(form.cleaned_data['url'])
+			except ValidationError:
+				raise ValidationError(_("Please enter a valid URL"))
+
 			url = Url() #urlobject
 			url.original_url = form.cleaned_data['url']
 			url.url_code = create_code()
-
 			url.save()
 			url_result = request.build_absolute_uri() + 'url/' + url.url_code
-			return render(request, 'urls/index.html', {'form': form, 'new_url': url_result})
+			return render(request, 'urls/index.html', {'form': form, 'new_url': url_result})	
 
 	# if other we'll create a blank form
 	else:
